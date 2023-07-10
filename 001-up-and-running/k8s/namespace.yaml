@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: up-and-running
+  labels:
+    name: up-and-running
+    istio-injection: enabled

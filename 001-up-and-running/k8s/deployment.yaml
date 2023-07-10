@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: up-and-running-web
+  namespace: up-and-running
+  labels:
+    app: up-and-running-web
+spec:
+  selector:
+    matchLabels:
+      app: up-and-running-web
+  template:
+    metadata:
+      labels:
+        app: up-and-running-web
+    spec:
+      containers:
+      - name: up-and-running-web
+        image: europe-docker.pkg.dev/thiatt-manual-020/showcase-containers/001-up-and-running:test-v001
+        ports:
+        - containerPort: 8080
+        env:
+        - name: CUSTOMER
+          value: "Hello from the environment"
+        - name: COLOR_PRIMARY
+          value: "#000000"
+        - name: COLOR_SECONDARY
+          value: "#5f5f61"
+        - name: COLOR_BACKGROUND
+          value: "#FFFFFF"
+        - name: LOCATION
+          value: "europe-west6"
+        - name: PLATFORM
+          value: "GKE Autopilot"

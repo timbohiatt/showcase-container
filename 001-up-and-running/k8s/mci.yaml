@@ -1,0 +1,12 @@
+---
+apiVersion: networking.gke.io/v1
+kind: MultiClusterIngress
+metadata:
+  name: up-and-running-ingress
+  namespace: up-and-running
+spec:
+  template:
+    spec:
+      backend:
+        serviceName: up-and-running-mcs
+        servicePort: 8080

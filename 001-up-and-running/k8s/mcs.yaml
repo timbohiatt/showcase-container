@@ -1,0 +1,16 @@
+---
+apiVersion: networking.gke.io/v1
+kind: MultiClusterService
+metadata:
+  name: up-and-running-mcs
+  namespace: up-and-running
+spec:
+  template:
+    spec:
+      selector:
+        app: up-and-running
+      ports:
+      - name: web
+        protocol: TCP
+        port: 8080
+        targetPort: 8080
