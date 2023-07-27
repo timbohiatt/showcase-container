@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"log"
@@ -24,6 +25,7 @@ var config = &Config{}
 func main() {
 	mux := http.NewServeMux()
 	mux.Handle("/public/", logging(public()))
+	mux.Handle("/healthz/", logging(healthz()))
 	mux.Handle("/", logging(index()))
 
 	port, found := os.LookupEnv("PORT")
@@ -132,4 +134,22 @@ func index() http.Handler {
 // public serves static assets such as CSS and JavaScript to clients.
 func public() http.Handler {
 	return http.StripPrefix("/public/", http.FileServer(http.Dir("./public")))
+}
+
+// healthz serves static assets such as CSS and JavaScript to clients.
+func healthz() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		b := struct {
+			Customer string
+			Location string
+			Platform string
+		}{
+			Customer: config.Customer,
+			Location: config.Location,
+			Platform: config.Platform,
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(b)
+	})
 }
